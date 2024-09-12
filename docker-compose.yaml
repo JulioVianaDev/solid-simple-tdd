@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: julio
+      POSTGRES_PASSWORD: tomate
+      POSTGRES_DB: julio
+    volumes:
+      - ./create.sql:/docker-entrypoint-initdb.d/create.sql
+    ports:
+      - "5432:5432"
+    restart: always

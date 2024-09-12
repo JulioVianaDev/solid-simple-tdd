@@ -1,5 +1,7 @@
 drop schema julio cascade;
 
+create extension "uuid-ossp";
+
 create schema julio;
 
 create table julio.contract (
