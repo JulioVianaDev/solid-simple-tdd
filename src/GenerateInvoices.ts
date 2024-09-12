@@ -1,16 +1,13 @@
-import pg from "pg-promise"
 import moment from "moment";
+import ContractDatabaseRepository from "./ContractDatabaseRepository";
 export class GenerateInvoices {
     async execute(input: Input): Promise<Output[]> {
-        const connection = await pg()("postgres://julio:tomate@localhost:5432/julio")
-        const contracts = await connection.query('select * from julio.contract', []);
+        const contractRepository = new ContractDatabaseRepository();
         const output: Output[] = []
+        const contracts = await contractRepository.list();
         for (const contract of contracts) {
             if (input.type === "cash") {
-
-
-                const payments = await connection.query('select * from julio.payment where id_contract = $1', [contract.id_contract])
-                for (const payment of payments) {
+                for (const payment of contract.payments) {
                     if (payment.date.getMonth() + 1 !== input.month || payment.date.getFullYear() !== input.year) continue;
                     output.push({ date: moment(payment.date).format("YYYY-MM-DD"), amount: +payment.amount })
                 }
@@ -25,7 +22,6 @@ export class GenerateInvoices {
                 }
             }
         }
-        await connection.$pool.end();
         return output
     }
 }
