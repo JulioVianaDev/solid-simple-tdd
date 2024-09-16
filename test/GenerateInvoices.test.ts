@@ -3,7 +3,7 @@ import ContractDatabaseRepository from "../src/ContractDatabaseRepository";
 import { GenerateInvoices, Input } from "../src/GenerateInvoices";
 import { PgPromiseAdapter } from "../src/PgPromiseAdapter";
 import { DatabaseConnection } from "../src/DatabaseConnection";
-
+// teste de integração
 let connection: DatabaseConnection;
 
 beforeAll(() => {

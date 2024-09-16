@@ -1,5 +1,6 @@
+import Invoice from "./Invoice";
 import { Payment } from "./PaymentType";
-
+import moment from "moment";
 export default class Contract {
     private payments: Payment[];
     constructor(
@@ -16,5 +17,24 @@ export default class Contract {
     }
     getPayments() {
         return this.payments;
+    }
+    generateInvoices(month: number, year: number, type: string) {
+        const invoices: Invoice[] = []
+        if (type === "cash") {
+            for (const payment of this.getPayments()) {
+                if (payment.date.getMonth() + 1 !== month || payment.date.getFullYear() !== year) continue;
+                invoices.push(new Invoice(payment.date, +payment.amount))
+            }
+        }
+        if (type === "accrual") {
+            let period = 0;
+            while (period <= this.periods) {
+                const date = moment(this.date).add(period++, "months").toDate();
+                if (date.getMonth() + 1 !== month || date.getFullYear() !== year) continue
+                const amount = this.amount / this.periods;
+                invoices.push(new Invoice(date, amount))
+            }
+        }
+        return invoices
     }
 }
