@@ -1,3 +1,4 @@
+import AccrualBasisStrategy from "../src/AccrualBasisStrategy";
 import Contract from "../src/ContractType"
 
 // teste de unidade

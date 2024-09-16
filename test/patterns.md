@@ -9,3 +9,11 @@ Realizar persistencia de agregates ( clusters de objetos de dominio como entitie
 # Adapter
 
 Converte uma interface em outra esperada pelo cliente,permitindo que classes incompativeis trabalhem juntas
+
+# Strategy
+
+Criar comportamento intercambiavel
+
+# Dynamic factor
+
+Criar uma instancia com base em uma string
