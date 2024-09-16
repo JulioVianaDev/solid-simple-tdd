@@ -1,28 +1,30 @@
 import ContractDatabaseRepository from "../src/ContractDatabaseRepository";
 import ContractRepository from "../src/ContractRepository";
+import Contract from "../src/ContractType";
 import { GenerateInvoices, Input } from "../src/GenerateInvoices";
+import { Payment } from "../src/PaymentType";
 let generateInvoices: GenerateInvoices;
 beforeEach(() => {
     const contractRepository: ContractRepository = {
-        async list() {
-            return [
-                {
-                    id: "20202002",
-                    description:
-                        'Prestação de serviços escolares',
-                    amount: 6000,
-                    periods: 12,
-                    date: new Date('2022-01-01T10:00:00'),
-                    payments: [
-                        {
-                            idContract: "20202002",
-                            idPayment: "20101010",
-                            amount: 6000,
-                            date: new Date('2022-01-05T10:00:00'),
-                        }
-                    ]
-                }
-            ]
+        async list(): Promise<Contract[]> {
+            const contract = new Contract(
+                'Prestação de serviços escolares',
+                6000,
+                12,
+                '20202002',
+                new Date('2022-01-01T10:00:00')
+            );
+
+            const payment: Payment = {
+                idContract: "20202002",
+                idPayment: "20101010",
+                amount: 6000,
+                date: new Date('2022-01-05T10:00:00')
+            };
+
+            contract.addPayment(payment); // Add payment using class method
+
+            return [contract];
         },
     };
     //  caso queira por  database instancia a classe com o contractRepository
