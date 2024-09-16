@@ -19,6 +19,13 @@ export default class Contract {
     getPayments() {
         return this.payments;
     }
+    getBalance() {
+        let balance = this.amount;
+        for (const payment of this.payments) {
+            balance -= payment.amount;
+        }
+        return balance
+    }
     generateInvoices(month: number, year: number, type: string) {
         const invoiceGenerationStrategy = GenerationFactory.create(type)
         return invoiceGenerationStrategy.generate(this, month, year)

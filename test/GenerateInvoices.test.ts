@@ -50,6 +50,18 @@ test("Deve gerar as notas fiscais por regime de competencia 2 mes", async () => 
     expect(output[0].date).toBe("2022-02-01");
     expect(output[0].amount).toBe(500)
 })
+test("Deve gerar as notas fiscais por regime de competencia por csv", async () => {
+    const contractRepository = new ContractDatabaseRepository(connection);
+    const generateInvoices = new GenerateInvoices(contractRepository)
+    const input: Input = {
+        month: 2,
+        year: 2022,
+        type: "accrual" // "accrual" | "cash"
+    }
+
+    const output = await generateInvoices.execute(input);
+    expect(output[0]).toBe("2022-02-01;500");
+})
 
 afterAll(() => {
     connection.close()

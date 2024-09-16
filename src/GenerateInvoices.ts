@@ -14,7 +14,22 @@ export class GenerateInvoices {
                 output.push({ date: moment(invoice.date).format("YYYY-MM-DD"), amount: invoice.amount })
             }
         }
-        return output
+        if (!input.format || input.format === "json") {
+
+            return output
+        }
+        if (input.format === "csv") {
+            const lines: any[] = []
+            for (const element of output) {
+                const line: string[] = [];
+
+                line.push(element.date)
+                line.push(`${element.amount}`)
+                lines.push(';')
+            }
+            return lines.join("\n")
+        }
+        return []
     }
 }
 
@@ -22,6 +37,7 @@ export type Input = {
     month: number,
     year: number,
     type: "accrual" | "cash"
+    format?: string
 }
 
 export type Output = {
